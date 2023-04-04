@@ -1,0 +1,74 @@
+# version: '3.7'
+
+# networks:
+#   kafka-network:
+#     driver: bridge
+
+# services:
+#   zookeeper:
+#     image: confluentinc/cp-zookeeper:7.0.0
+#     container_name: zookeeper
+#     hostname: zookeeper
+#     user: root
+#     networks:
+#       - kafka-network
+#     ports:
+#       - "2181:2181"
+#     environment:
+#       ZOOKEEPER_CLIENT_PORT: 2181
+#       ZOOKEEPER_TICK_TIME: 2000
+#     volumes:
+#       - D:\kafka\data\zookeeper_data:/var/lib/zookeeper/data
+
+#   kafka:
+#     image: confluentinc/cp-kafka:7.0.0
+#     container_name: kafka
+#     hostname: kafka
+#     user: root
+#     networks:
+#       - kafka-network
+#     ports:
+#       - "9092:9092"
+#     environment:
+#       KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+#       KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://kafka:9092"
+#       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+#     depends_on:
+#       - zookeeper
+#     volumes:
+#       - D:\kafka\data\kafka_data:/var/lib/kafka/data
+
+
+version: "3"
+services:
+  zookeeper:
+    image: 'bitnami/zookeeper:latest'
+    container_name: zookeeper
+    hostname: zookeeper
+    ports:
+      - '2181:2181'
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    volumes:
+      - D:\kafka\data\zookeeper_data:/var/lib/zookeeper/data
+
+  kafka:
+    image: 'bitnami/kafka:latest'
+    container_name: kafka
+    hostname: kafka
+    ports:
+      - '9092:9092'
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+    depends_on:
+      - zookeeper
+    volumes:
+      - D:\kafka\data\kafka_data:/var/lib/kafka/data
+
+networks:
+  kafka-network:
+    driver: bridge
