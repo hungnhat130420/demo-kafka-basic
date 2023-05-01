@@ -10,6 +10,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>kafka-module1</module>
+        <module>Kafka-Wikimedia-Stream</module>
     </modules>
 
     <properties>

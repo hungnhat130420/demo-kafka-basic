@@ -51,5 +51,17 @@ public class ProducerWithCallback {
         producer.close();
 
         logger.info("Already send message");
+
+
+
     }
+    static String formatterPatternSwitch(Object o) {
+        return switch (o) {
+            case Integer i -> String.format("int %d", i);
+            case Double d -> String.format("double %f", d);
+            case Long l -> String.format("long %d", l);
+            default -> o.toString();
+        };
+    }
+
 }
